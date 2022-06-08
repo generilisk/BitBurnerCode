@@ -4,7 +4,7 @@ export async function main(ns) {
 	ns.disableLog("ALL")
 	ns.print("Hello there")
 	let targetList = rootAccessList(ns)
-	let homeRAM = ns.getServerMaxRam("home")
+	let homeRAM = ns.getServerMaxRam("home")-ns.getServerUsedRam("home")
 	let homeWeakenRAM = ns.getScriptRam("loopWeaken.js", "home")
 	let homeGrowRAM = ns.getScriptRam("loopGrow.js", "home")
 	let homeHackRAM = ns.getScriptRam("loopHack.js", "home")
@@ -13,7 +13,7 @@ export async function main(ns) {
 	ns.print("Grow RAM: " + homeGrowRAM)
 	ns.print("Hack RAM: " + homeHackRAM)
 	ns.print("Home RAM is " + homeRAM + ", a full set of loops uses " + homeLoopTotalRAM + " of RAM, split across " + targetList.length + " servers being hacked.")
-	let homeThreadCount = Math.floor((homeRAM / homeLoopTotalRAM) / targetList.length) - 1
+	let homeThreadCount = Math.floor((homeRAM / homeLoopTotalRAM) / targetList.length)
 	let targetThreadCount = 0
 	let targetRAM = 0
 	let targetCost = 0
