@@ -13,37 +13,43 @@ export async function main(ns) {
 	ns.tprintf("Hack RAM: " + homeHackRAM)
 	let homeTotalThreadCount = Math.floor(homeRAM / homeLoopTotalRAM)
 	let homeMoneyAvailableTotal = 0
-	ns.tprintf("Home RAM is " + homeRAM + ", a full set of loops uses " + homeLoopTotalRAM + " of RAM, for a total of " + homeTotalThreadCount + " threads, shared between " + targetList.length + " servers.")
+	ns.tprintf("Home has " + homeRAM + "GB of RAM, a full set of loops uses " + homeLoopTotalRAM + "GB of RAM, for a total of " + homeTotalThreadCount + " threads, shared between " + targetList.length + " servers.")
 	for (let targetServer of targetList) {
 		homeMoneyAvailableTotal += ns.getServerMaxMoney(targetServer)
 	};
 	let targetThreadCount = 0
-	let targetRAM = 0
-	let targetCost = 0
 	let hackLoops = ["loopWeaken.js", "loopGrow.js", "loopHack.js"]
 	for (let targetServer of targetList) {
+
+		//set up self-hacking
+		let targetRAM = ns.getServerMaxRam(targetServer)
+		await ns.scp(hackLoops, "home", targetServer)
+		let targetWeakenRAM = ns.getScriptRam("loopWeaken.js", targetServer)
+		let targetGrowRAM = ns.getScriptRam("loopGrow.js", targetServer)
+		let targetHackRAM = ns.getScriptRam("loopHack.js", targetServer)
+		let targetCost = (targetWeakenRAM + targetGrowRAM + targetHackRAM)
+		if (targetRAM >= targetCost) {
+			targetThreadCount = Math.floor(targetRAM / targetCost)
+			ns.killall(targetServer, true)
+			if (targetThreadCount > 0) {
+				ns.print("Self-hacking " + targetServer + " with " + targetThreadCount + " threads.")
+				ns.exec("loopWeaken.js", targetServer, targetThreadCount, targetServer)
+				ns.exec("loopGrow.js", targetServer, targetThreadCount, targetServer)
+				ns.exec("loopHack.js", targetServer, targetThreadCount, targetServer)
+			} else {
+				ns.print(targetServer + " has insufficient RAM to loop itself.")
+			}
+		} else {
+			ns.print(targetServer + " has no accessible RAM")
+		}
+
+		//set up hacking on home
 		let homeThreadPercent = ns.getServerMaxMoney(targetServer) / homeMoneyAvailableTotal
 		let homeThreadCount = Math.floor(homeTotalThreadCount * homeThreadPercent)
 		if (homeThreadCount > 0) {
-			targetRAM = ns.getServerMaxRam(targetServer)
-			await ns.scp(hackLoops, "home", targetServer)
 			ns.exec("loopWeaken.js", "home", homeThreadCount, targetServer)
 			ns.exec("loopGrow.js", "home", homeThreadCount, targetServer)
 			ns.exec("loopHack.js", "home", homeThreadCount, targetServer)
-			targetCost = (ns.getScriptRam("loopWeaken.js", targetServer) + ns.getScriptRam("loopGrow.js", targetServer) + ns.getScriptRam("loopHack.js", targetServer))
-			if (targetRAM > 0) {
-				targetThreadCount = Math.floor(targetRAM / targetCost)
-				ns.killall(targetServer, true)
-				if (targetThreadCount > 0) {
-					ns.exec("loopWeaken.js", targetServer, targetThreadCount, targetServer)
-					ns.exec("loopGrow.js", targetServer, targetThreadCount, targetServer)
-					ns.exec("loopHack.js", targetServer, targetThreadCount, targetServer)
-				} else {
-					ns.print(targetServer + " has insufficient RAM to loop itself.")
-				}
-			} else {
-				ns.print(targetServer + " has no accessable RAM")
-			}
 			ns.printf("Looping " + homeThreadCount + " threads on home to hack " + targetServer)
 		} else {
 			ns.printf(targetServer + " has insufficient money to justify a thread.")
