@@ -1,5 +1,5 @@
 /** @param {NS} ns **/
-import { nestingScan, rootAccessList } from './tools.js';
+import { rootAccessList } from './tools.js';
 export async function main(ns) {
 	ns.disableLog("ALL")
 	let targetList = rootAccessList(ns)
