@@ -13,7 +13,7 @@ export async function main(ns) {
 		await ns.scp("QTest.js", "home", serverName)
 	}
 	if (ns.getPurchasedServers().includes(serverName)){
-		if(!ns.isRunning(BitBurnerHacknetMgr.js,serverName)){
+		if(!ns.isRunning("BitBurnerHacknetMgr.js",serverName)){
 			ns.exec("BitBurnerHacknetMgr.js",serverName)
 		}		
 	}
