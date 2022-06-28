@@ -2,12 +2,12 @@
 
 // Returns a full list of servers on the network
 export function nestingScan(ns) {
-	var serList = ["home"];
-	var serCount = serList.length;
-	var curList = [];
-	var curCount = 0;
-	var c = 0
-	for (var s = 0; s < serCount; s++) {
+	let serList = ["home"];
+	let serCount = serList.length;
+	let curList = [];
+	let curCount = 0;
+	let c = 0
+	for (let s = 0; s < serCount; s++) {
 		curList = ns.scan(serList[s])
 		curCount = curList.length;
 		for (c = 0; c < curCount; c++) {

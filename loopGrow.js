@@ -1,7 +1,7 @@
 /** @param {NS} ns **/
 export async function main(ns) {
-	const targetServer = ns.args[0];
 	ns.disableLog("ALL")
+	const targetServer = ns.args[0];
 	while (true) {
 		let targetMoneyAvailable = ns.getServerMoneyAvailable(targetServer)
 		let targetMaxMoney = ns.getServerMaxMoney(targetServer)
@@ -15,7 +15,8 @@ export async function main(ns) {
 				targetMoneyAvailable.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) +
 				" out of " +
 				targetMaxMoney.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) +
-				" available. Growing now...")
+				" available. Growing now..."
+			)
 			await ns.grow(targetServer);
 		} else if (targetMinSecuritylevel < targetSecurityLevel) {
 			ns.print(
@@ -24,7 +25,7 @@ export async function main(ns) {
 				targetSecurityLevel +
 				" with a minimum of " +
 				targetMinSecuritylevel +
-				". Hacking now..."
+				". Weakening now..."
 			)
 			await ns.weaken(targetServer)
 		} else {

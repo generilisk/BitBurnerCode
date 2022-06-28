@@ -1,23 +1,23 @@
 /** @param {NS} ns **/
 export async function main(ns) {
 	ns.disableLog("ALL");
-	var serList = ns.scan("home");
+	let serList = ns.scan("home");
 	ns.print(serList);
-	var portOpeners = 0
-	var errMoney = 0
-	var errHackLevel = 0
-	var errPorts = 0
-	var errAccessExists = 0
-	var errTotal = 0
-	var curMoney = 0
-	var reqPorts = 0
-	var serCount = serList.length;
-	var curList = [];
-	var curCount = 0;
-	var c = 0
+	let portOpeners = 0
+	let errMoney = 0
+	let errHackLevel = 0
+	let errPorts = 0
+	let errAccessExists = 0
+	let errTotal = 0
+	let curMoney = 0
+	let reqPorts = 0
+	let serCount = serList.length;
+	let curList = [];
+	let curCount = 0;
+	let c = 0
 
 	serList = ns.scan("home");
-	for (var s = 0; s < serCount; s++) {
+	for (let s = 0; s < serCount; s++) {
 		curList = ns.scan(serList[s])
 		curCount = curList.length;
 		for (c = 0; c < curCount; c++) {
@@ -37,8 +37,8 @@ export async function main(ns) {
 	if (ns.fileExists("HTTPWorm.exe", "home")) { ++portOpeners };
 	if (ns.fileExists("SQLInject.exe", "home")) { ++portOpeners };
 
-	for (var s = 0; s < serList.length; s++) {
-		var curServer = serList[s]
+	for (let s = 0; s < serList.length; s++) {
+		let curServer = serList[s]
 		reqPorts = ns.getServerNumPortsRequired(curServer)
 		curMoney = ns.getServerMaxMoney(curServer)
 		ns.print(curServer);
@@ -66,9 +66,33 @@ export async function main(ns) {
 		errTotal = errMoney + errHackLevel + errPorts + errAccessExists;
 		if (errTotal > 0) {
 			ns.print("	Issues encountered:");
-			if (errMoney > 0) { ns.print("		Server does not host money") };
-			if (errHackLevel > 0) { ns.print("		Server requires hacking level " + ns.getServerRequiredHackingLevel(curServer) + " but ours is only " + ns.getHackingLevel()) };
-			if (errPorts > 0) { ns.print("		Server requires " + reqPorts + " ports; we can currently open " + portOpeners) };
+			if (errMoney > 0) {
+				ns.print(
+					"		" +
+					curServer +
+					" does not host money"
+				)
+			};
+			if (errHackLevel > 0) {
+				ns.print(
+					"		" +
+					curServer +
+					" requires hacking level " +
+					ns.getServerRequiredHackingLevel(curServer) +
+					" but ours is only " +
+					ns.getHackingLevel()
+				)
+			};
+			if (errPorts > 0) {
+				ns.print(
+					"		" +
+					curServer +
+					" requires "
+					+ reqPorts +
+					" ports; we can currently open "
+					+ portOpeners
+				)
+			};
 			if (errAccessExists) { ns.print("		Access already exists.") };
 		} else {
 			if (reqPorts > 0 && ns.fileExists("BruteSSH.exe", "home")) { ns.brutessh(curServer) };
