@@ -19,11 +19,11 @@ export async function main(ns) {
 		if (!ns.isRunning("BitBurnerHacknetMgr.js", serverName)) {
 			ns.exec("BitBurnerHacknetMgr.js", serverName)
 		}
-		if (!ns.isRunning("startLoopsAll.js", serverName)) {
-			ns.exec("startLoopsAll.js", serverName)
-		}
 		if (!ns.isRunning("nukeAllAvailable.js", serverName)) {
 			ns.exec("nukeAllAvailable.js", serverName)
+		}
+		if (!ns.isRunning("startLoopsAll.js", serverName)) {
+			ns.exec("startLoopsAll.js", serverName)
 		}
 	}
 }
