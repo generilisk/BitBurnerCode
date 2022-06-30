@@ -1,6 +1,6 @@
 /** @param {NS} ns */
 export async function main(ns) {
-	const costToRun = ns.getScriptRam("BitBurnerHacknetMgr.js") + ns.getScriptRam("startLoopsAll.js")
+	const costToRun = ns.getScriptRam("BitBurnerHacknetMgr.js") + ns.getScriptRam("nukeAllAvailable.js") + ns.getScriptRam("startLoopsAll.js")
 	let serverRAM = 0
 	let serverName = "dayOne"
 	ns.exec("infiltrate.js", ns.getHostname())
