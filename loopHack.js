@@ -22,7 +22,7 @@ export async function main(ns) {
 			ns.print(
 				targetServer +
 				" is at " +
-				targetSecurityLevel +
+				targetSecurityLevel.toFixed(3) +
 				", with " +
 				targetMoneyAvailable.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) +
 				" available."
