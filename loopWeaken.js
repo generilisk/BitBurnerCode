@@ -5,16 +5,16 @@ export async function main(ns) {
 	while (true) {
 		let targetMoneyAvailable = ns.getServerMoneyAvailable(targetServer)
 		let targetMaxMoney = ns.getServerMaxMoney(targetServer)
-		let targetMinSecurityLevel = ns.getServerMinSecurityLevel(targetServer)
+		let targetMinSecuritylevel = ns.getServerMinSecurityLevel(targetServer)
 		let targetSecurityLevel = ns.getServerSecurityLevel(targetServer)
 
-		if (targetMinSecurityLevel < targetSecurityLevel) {
+		if (targetMinSecuritylevel < targetSecurityLevel) {
 			ns.print(
 				targetServer +
 				" is at security level " +
 				targetSecurityLevel.toFixed(3) +
 				" with a minimum of " +
-				targetMinSecurityLevel +
+				targetMinSecuritylevel +
 				". Weakening now..."
 			)
 			await ns.weaken(targetServer)
