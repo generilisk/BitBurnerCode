@@ -1,5 +1,4 @@
 /** @param {NS} ns **/
-
 export async function main(ns) {
 	var paybackLimit = 24 * 60 * 60;
 	var sleepMilliseconds = 0.001 * 1000;
@@ -22,19 +21,19 @@ export async function main(ns) {
 		actionList = actionList.filter(action => action.payBackTime() < paybackLimit);
 		if (actionList.length > 0) {
 			actionList = actionList.filter(action => action.cost < budget);
-			if (actionList.length > 0) {// Second check, we don't want to escape the script if there are actions we will be able to afford later
-				actionList.sort(function (x, y) { x.payBackTime() - y.payBackTime() });
+			if (actionList.length > 0) { // Second check, we don't want to escape the script if there are actions we will be able to afford later
+				actionList.sort(function (x, y) {
+					x.payBackTime() - y.payBackTime()
+				});
 				actionList[0].doAction();
 			}
 			await ns.sleep(sleepMilliseconds);
-		}
-		else {
+		} else {
 			ns.tprint(`All Hacknet Nodes are fully productive.`);
 			break;
 		}
 	}
 }
-
 class Action {
 	constants = {
 		MaxLevel: 200,
@@ -45,7 +44,6 @@ class Action {
 	}
 	sys;
 	nodeIndex;
-
 	cost;
 	originalProd;
 	prodIncrease;
@@ -55,9 +53,9 @@ class Action {
 	level;
 	cores;
 	ns;
-
-	doAction = () => { return null; };
-
+	doAction = () => {
+		return null;
+	};
 	constructor(ns, nodeIndex) {
 		this.ns = ns;
 		this.sys = ns.hacknet;
@@ -77,13 +75,11 @@ class Action {
 		var updatedRate = this.calculateMoneyGainRate(this.level, this.ram, this.cores, this.multProd);
 		return updatedRate;
 	}
-
 	calculateMoneyGainRate(level, ram, cores, mult) {
 		const gainPerLevel = this.constants.MoneyGainPerLevel;
 		const levelMult = level * gainPerLevel;
 		const ramMult = Math.pow(1.035, ram - 1);
 		const coresMult = (cores + 5) / 6.0;
-
 		var result = levelMult;
 		result *= ramMult;
 		result *= coresMult;
@@ -92,7 +88,6 @@ class Action {
 		return result;
 	}
 }
-
 class RamAction extends Action {
 	constructor(ns, nodeIndex) {
 		super(ns, nodeIndex);
@@ -105,13 +100,11 @@ class RamAction extends Action {
 				this.sys.upgradeRam(nodeIndex, 1);
 				ns.print(`upgrading Ram on node ${this.nodeIndex}, payback time is ${Math.ceil(this.payBackTime() / 3600)} hours`);
 			}
-		}
-		else {
+		} else {
 			this.prodIncrease = 0;
 		}
 	}
 }
-
 class LevelAction extends Action {
 	constructor(ns, nodeIndex) {
 		super(ns, nodeIndex);
@@ -124,8 +117,7 @@ class LevelAction extends Action {
 				this.sys.upgradeLevel(nodeIndex, 1);
 				ns.print(`upgrading Level on node ${this.nodeIndex}, payback time is ${Math.ceil(this.payBackTime() / 3600)} hours`);
 			}
-		}
-		else {
+		} else {
 			this.prodIncrease = 0;
 		}
 	}
@@ -142,8 +134,7 @@ class CoreAction extends Action {
 				this.sys.upgradeCore(nodeIndex, 1);
 				ns.print(`upgrading Core on node ${this.nodeIndex}, payback time is ${Math.ceil(this.payBackTime() / 3600)} hours`);
 			}
-		}
-		else {
+		} else {
 			this.prodIncrease = 0;
 		}
 	}
@@ -163,8 +154,7 @@ class NewNodeAction extends Action {
 				this.sys.purchaseNode();
 				ns.print(`Purchasing a new node. payback time is ${Math.ceil(this.payBackTime() / 3600)} hours`);
 			}
-		}
-		else {
+		} else {
 			this.prodIncrease = 0;
 		}
 	}

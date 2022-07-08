@@ -15,7 +15,6 @@ export async function main(ns) {
 	let curList = [];
 	let curCount = 0;
 	let c = 0
-
 	serList = ns.scan("home");
 	for (let s = 0; s < serCount; s++) {
 		curList = ns.scan(serList[s])
@@ -29,14 +28,21 @@ export async function main(ns) {
 		serCount = serList.length
 	};
 	ns.print(serList);
-
-
-	if (ns.fileExists("BruteSSH.exe", "home")) { ++portOpeners };
-	if (ns.fileExists("FTPCrack.exe", "home")) { ++portOpeners };
-	if (ns.fileExists("relaySMTP.exe", "home")) { ++portOpeners };
-	if (ns.fileExists("HTTPWorm.exe", "home")) { ++portOpeners };
-	if (ns.fileExists("SQLInject.exe", "home")) { ++portOpeners };
-
+	if (ns.fileExists("BruteSSH.exe", "home")) {
+		++portOpeners
+	};
+	if (ns.fileExists("FTPCrack.exe", "home")) {
+		++portOpeners
+	};
+	if (ns.fileExists("relaySMTP.exe", "home")) {
+		++portOpeners
+	};
+	if (ns.fileExists("HTTPWorm.exe", "home")) {
+		++portOpeners
+	};
+	if (ns.fileExists("SQLInject.exe", "home")) {
+		++portOpeners
+	};
 	for (let s = 0; s < serList.length; s++) {
 		let curServer = serList[s]
 		reqPorts = ns.getServerNumPortsRequired(curServer)
@@ -87,20 +93,34 @@ export async function main(ns) {
 				ns.print(
 					"		" +
 					curServer +
-					" requires "
-					+ reqPorts +
-					" ports; we can currently open "
-					+ portOpeners
+					" requires " +
+					reqPorts +
+					" ports; we can currently open " +
+					portOpeners
 				)
 			};
-			if (errAccessExists) { ns.print("		Access already exists.") };
+			if (errAccessExists) {
+				ns.print("		Access already exists.")
+			};
 		} else {
-			if (reqPorts > 0 && ns.fileExists("BruteSSH.exe", "home")) { ns.brutessh(curServer) };
-			if (reqPorts > 1 && ns.fileExists("FTPCrack.exe", "home")) { ns.ftpcrack(curServer) };
-			if (reqPorts > 2 && ns.fileExists("relaySMTP.exe", "home")) { ns.relaysmtp(curServer) };
-			if (reqPorts > 3 && ns.fileExists("HTTPWorm.exe", "home")) { ns.httpworm(curServer) };
-			if (reqPorts > 4 && ns.fileExists("SQLInject.exe", "home")) { ns.sqlinject(curServer) };
-			if (portOpeners >= reqPorts) { ns.nuke(curServer) };
+			if (reqPorts > 0 && ns.fileExists("BruteSSH.exe", "home")) {
+				ns.brutessh(curServer)
+			};
+			if (reqPorts > 1 && ns.fileExists("FTPCrack.exe", "home")) {
+				ns.ftpcrack(curServer)
+			};
+			if (reqPorts > 2 && ns.fileExists("relaySMTP.exe", "home")) {
+				ns.relaysmtp(curServer)
+			};
+			if (reqPorts > 3 && ns.fileExists("HTTPWorm.exe", "home")) {
+				ns.httpworm(curServer)
+			};
+			if (reqPorts > 4 && ns.fileExists("SQLInject.exe", "home")) {
+				ns.sqlinject(curServer)
+			};
+			if (portOpeners >= reqPorts) {
+				ns.nuke(curServer)
+			};
 		};
 	};
 }

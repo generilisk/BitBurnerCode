@@ -5,19 +5,16 @@
 - Switches for added information (Change constants at the beginning of code to (de)-activate them individually)
 - Information if Server is hackable now checks also required Server ports against player capability 
 */
-
 // Switches (Change constants to change design of Tree)
 const controlSymbolTypeColor = true; // True = Colored Root Access Symbols / False = Asscii Art
 const controlPortsRequiredIndicator = true; // True = Required Ports will be shown after Server Hacking Level Requirement / False = Hidden
 const controlBackdoorIndicator = true; // True = Backdoor Indecator active / False = Hidden
 const controlMaxMoneyIndicator = true; // True = Show Max Money of Server / False = Hidden
-
 var _ns;
 export async function main(ns) {
 	var seenList = [];
 	_ns = ns;
 	let input = ns.args[0];
-
 	// Help Menu
 	if (input === "-h" || input === "-help" || input === "help" || input === "-?" || input === "?") {
 		ns.tprint("");
@@ -49,19 +46,18 @@ export async function main(ns) {
 function ScanServer(serverName, seenList, indent, prefix) {
 	if (seenList.includes(serverName)) return;
 	seenList.push(serverName);
-
 	var serverList = _ns.scan(serverName);
-	serverList = serverList.filter(function (item) { return seenList.indexOf(item) === -1; });
+	serverList = serverList.filter(function (item) {
+		return seenList.indexOf(item) === -1;
+	});
 	serverList = serverList.sort(ChildCountCompare);
-
 	for (var i = 0; i < serverList.length; i++) {
 		var newServer = serverList[i];
 		if (seenList.includes(newServer)) continue;
 		if (i != serverList.length - 1) {
 			PrintServerInfo(newServer, indent, prefix + "├─")
 			ScanServer(newServer, seenList, indent + 1, prefix + "│    ");
-		}
-		else {
+		} else {
 			PrintServerInfo(newServer, indent, prefix + "└─")
 			ScanServer(newServer, seenList, indent + 1, prefix + "     ");
 		}
@@ -98,7 +94,6 @@ function PrintServerInfo(serverName, indent, prefix) {
 	var backdoorIndicator = "";
 	var portReqIndicator = "";
 	var maxMoneyIndicator = "";
-
 	if (_ns.getHackingLevel() >= serverHackingLevel && HackablePortsPlayer() >= serverPortLevel && !serverinfo.hasAdminRights) {
 		canHackIndicator = "  >> !!!!!!!!!  CAN HACK  !!!!!!!!!"
 	}
@@ -138,5 +133,4 @@ function HackablePortsPlayer() {
 	}
 	return hackablePortsPlayer;
 }
-
 //var hacked = (_ns.hasRootAccess(serverName)) ? "██ " : "[] ";

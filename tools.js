@@ -1,5 +1,4 @@
 /** @param {NS} ns **/
-
 // Returns a full list of servers on the network
 export function nestingScan(ns) {
 	let serList = ["home"];
@@ -20,7 +19,6 @@ export function nestingScan(ns) {
 	};
 	return serList;
 }
-
 // Returns a list of servers with root access to run scripts against
 export function rootAccessList(ns) {
 	let rootAcesssList = []

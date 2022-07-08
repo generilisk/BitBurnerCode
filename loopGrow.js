@@ -7,14 +7,19 @@ export async function main(ns) {
 		let targetMaxMoney = ns.getServerMaxMoney(targetServer)
 		let targetMinSecuritylevel = ns.getServerMinSecurityLevel(targetServer)
 		let targetSecurityLevel = ns.getServerSecurityLevel(targetServer)
-
 		if (targetMoneyAvailable < targetMaxMoney) {
 			ns.print(
 				targetServer +
 				" has " +
-				targetMoneyAvailable.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) +
+				targetMoneyAvailable.toLocaleString('en-US', {
+					style: 'currency',
+					currency: 'USD'
+				}) +
 				" out of " +
-				targetMaxMoney.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) +
+				targetMaxMoney.toLocaleString('en-US', {
+					style: 'currency',
+					currency: 'USD'
+				}) +
 				" available. Growing now..."
 			)
 			await ns.grow(targetServer);
