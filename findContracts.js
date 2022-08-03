@@ -8,23 +8,12 @@ export async function main(ns) {
 		let currentServer = fullList[s]
 		let currentServerContracts = ns.ls(currentServer, ".cct")
 		if (currentServerContracts.length > 0) {
-			ns.tprintf("     " +
-				currentServerContracts.length +
-				" contracts on " +
-				currentServer +
-				":"
-			)
+			ns.tprintf(`	${currentServerContracts.length} contracts on ${currentServer}:`)
 			for (var contractNumber = 0; contractNumber < currentServerContracts.length; contractNumber++) {
-				ns.tprintf("		" +
-					currentServerContracts[contractNumber] +
-					": " +
-					ns.codingcontract.getContractType(currentServerContracts[contractNumber], currentServer)
-				)
+				ns.tprintf(`		${currentServerContracts[contractNumber]}: ${ns.codingcontract.getContractType(currentServerContracts[contractNumber], currentServer)}`)
 			}
 		} else {
-			ns.print("No contracts on " +
-				currentServer
-			)
+			ns.printf(`No contracts on ${currentServer}`)
 		}
 	}
 }

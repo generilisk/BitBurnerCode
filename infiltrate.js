@@ -16,7 +16,8 @@ const speed = 22;
 const wnd = eval("window");
 const doc = wnd["document"];
 // List of all games and an automated solver.
-const infiltrationGames = [{
+const infiltrationGames = [
+	{
 		name: "type it backward",
 		init: function (screen) {
 			const lines = getLines(getEl(screen, "p"));
@@ -416,9 +417,7 @@ export async function main(ns) {
 	if (args.stop) {
 		return;
 	}
-	print(
-		"Automated infiltration is enabled...\nVWhen you visit the infiltration screen of any company, all tasks are completed automatically."
-	);
+	print("Automated infiltration is enabled...\nVWhen you visit the infiltration screen of any company, all tasks are completed automatically.");
 	endInfiltration();
 	// Monitor the current screen and start infiltration once a
 	// valid screen is detected.
@@ -638,11 +637,7 @@ function wrapEventListeners() {
 				useCapture: options,
 				wrapped: handler,
 			});
-			return this._addEventListener(
-				type,
-				handler ? handler : callback,
-				options
-			);
+			return this._addEventListener(type, handler ? handler : callback, options);
 		};
 	}
 	if (!doc._removeEventListener) {
@@ -658,10 +653,7 @@ function wrapEventListeners() {
 				this.eventListeners[type] = [];
 			}
 			for (let i = 0; i < this.eventListeners[type].length; i++) {
-				if (
-					this.eventListeners[type][i].listener === callback &&
-					this.eventListeners[type][i].useCapture === options
-				) {
+				if (this.eventListeners[type][i].listener === callback && this.eventListeners[type][i].useCapture === options) {
 					if (this.eventListeners[type][i].wrapped) {
 						callback = this.eventListeners[type][i].wrapped;
 					}

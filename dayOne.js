@@ -9,12 +9,7 @@ export async function main(ns) {
 			serverRAM = 2 ** power
 		}
 		ns.purchaseServer(serverName, serverRAM)
-		ns.tprintf(
-			"Purchased dayOne with " +
-			serverRAM +
-			"GB of RAM for $" +
-			ns.getPurchasedServerCost(serverRAM)
-		)
+		ns.tprintf(`Purchased dayOne with ${serverRAM}GB of RAM for \$${ns.getPurchasedServerCost(serverRAM)}`)
 	}
 	if (ns.getPurchasedServers().includes(serverName)) {
 		if (!ns.fileExists("tools.js", serverName)) {

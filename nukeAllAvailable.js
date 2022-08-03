@@ -50,7 +50,7 @@ export async function main(ns) {
 		ns.print(curServer);
 		if (curMoney = 0) {
 			errMoney = 1
-			ns.print(curServer + " has " + ns.getServerMaxMoney(curServer) + " available.")
+			ns.print(`${curServer} has ${ns.getServerMaxMoney(curServer)} available.`)
 		} else {
 			errMoney = 0
 		};
@@ -73,31 +73,13 @@ export async function main(ns) {
 		if (errTotal > 0) {
 			ns.print("	Issues encountered:");
 			if (errMoney > 0) {
-				ns.print(
-					"		" +
-					curServer +
-					" does not host money"
-				)
+				ns.print(`		${curServer} does not host money`)
 			};
 			if (errHackLevel > 0) {
-				ns.print(
-					"		" +
-					curServer +
-					" requires hacking level " +
-					ns.getServerRequiredHackingLevel(curServer) +
-					" but ours is only " +
-					ns.getHackingLevel()
-				)
+				ns.print(`		${curServer} requires hacking level ${ns.getServerRequiredHackingLevel(curServer)} but ours is only ${ns.getHackingLevel()}`)
 			};
 			if (errPorts > 0) {
-				ns.print(
-					"		" +
-					curServer +
-					" requires " +
-					reqPorts +
-					" ports; we can currently open " +
-					portOpeners
-				)
+				ns.print(`		${curServer} requires ${reqPorts} ports; we can currently open ${portOpeners}`)
 			};
 			if (errAccessExists) {
 				ns.print("		Access already exists.")

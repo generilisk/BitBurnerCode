@@ -353,19 +353,12 @@ solvers["HammingCodes: Integer to encoded Binary"] = (value) => {
 	function HammingSumOfParity(_lengthOfDBits) {
 		// will calculate the needed amount of parityBits 'without' the "overall"-Parity (that math took me 4 Days to get it working)
 		return _lengthOfDBits < 3 || _lengthOfDBits == 0 // oh and of course using ternary operators, it's a pretty neat function
-			?
-			_lengthOfDBits == 0 ?
-			0 :
-			_lengthOfDBits + 1 : // the following math will only work, if the length is greater equal 3, otherwise it's "kind of" broken :D
-			Math.ceil(Math.log2(_lengthOfDBits * 2)) <=
-			Math.ceil(Math.log2(1 + _lengthOfDBits + Math.ceil(Math.log2(_lengthOfDBits)))) ?
-			Math.ceil(Math.log2(_lengthOfDBits) + 1) :
-			Math.ceil(Math.log2(_lengthOfDBits));
+			? _lengthOfDBits == 0 ? 0 : _lengthOfDBits + 1 : // the following math will only work, if the length is greater equal 3, otherwise it's "kind of" broken :D
+			Math.ceil(Math.log2(_lengthOfDBits * 2)) <= Math.ceil(Math.log2(1 + _lengthOfDBits + Math.ceil(Math.log2(_lengthOfDBits)))) ? Math.ceil(Math.log2(_lengthOfDBits) + 1) : Math.ceil(Math.log2(_lengthOfDBits));
 	}
 	const _data = value.toString(2).split(""); // first, change into binary string, then create array with 1 bit per index
 	const _sumParity = HammingSumOfParity(_data.length); // get the sum of needed parity bits (for later use in encoding)
-	const count = (arr, val) =>
-		arr.reduce((a, v) => (v === val ? a + 1 : a), 0);
+	const count = (arr, val) => arr.reduce((a, v) => (v === val ? a + 1 : a), 0);
 	// function count for specific entries in the array, for later use
 	const _build = ["x", "x", ..._data.splice(0, 1)]; // init the "pre-build"
 	for (let i = 2; i < _sumParity; i++) {
@@ -397,8 +390,7 @@ solvers["HammingCodes: Encoded Binary to Integer"] = (_data) => {
 	const _build = _data.split(""); // ye, an array for working, again
 	const _testArray = []; //for the "truthtable". if any is false, the data has an altered bit, will check for and fix it
 	const _sumParity = Math.ceil(Math.log2(_data.length)); // sum of parity for later use
-	const count = (arr, val) =>
-		arr.reduce((a, v) => (v === val ? a + 1 : a), 0);
+	const count = (arr, val) => arr.reduce((a, v) => (v === val ? a + 1 : a), 0);
 	// the count.... again ;)
 	let _overallParity = _build.splice(0, 1).join(""); // store first index, for checking in next step and fix the _build properly later on
 	_testArray.push(_overallParity == (count(_build, "1") % 2).toString() ? true : false); // first check with the overall parity bit
@@ -471,7 +463,7 @@ solvers["Proper 2-Coloring of a Graph"] = ([N, edges]) => {
 				//Assert u,v do not have the same color
 				else if (coloring[u] === coloring[v]) {
 					//If u,v do have the same color, no proper 2-coloring exists
-					return [];
+					return "[]";
 				}
 			}
 		}
