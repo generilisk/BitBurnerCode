@@ -42,7 +42,7 @@ export async function main(ns) {
 		//sell if not in target stocks
 		for (let i = 0; i < myStocks.length; i++) {
 			if (!targetStocks.includes(myStocks[i])) {
-				ns.stock.sell(myStocks[i].sym, myStocks[i].shares);
+				ns.stock.sellStock(myStocks[i].sym, myStocks[i].shares);
 				ns.print(`Sold ${myStocks[i].shares} of ${myStocks[i].sym}`);
 			}
 		}
@@ -53,7 +53,7 @@ export async function main(ns) {
 			let sharesAvailable = targetStocks[i].maxShares - targetStocks[i].shares;
 			let sharesAbletoBuy = Math.min(Math.floor(moneyAvailable / targetStocks[i].price), sharesAvailable);
 			if (((targetStocks[i].price * sharesAbletoBuy) * (1 + requiredReturn)) - (targetStocks[i].price * sharesAbletoBuy) > 200000) {
-				ns.stock.buy(targetStocks[i].sym, sharesAbletoBuy);
+				ns.stock.buyStock(targetStocks[i].sym, sharesAbletoBuy);
 				ns.print(`Bought ${sharesAbletoBuy} of ${targetStocks[i].sym}`);
 			}
 		}

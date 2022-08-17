@@ -2,9 +2,9 @@
 import {
 	rootAccessList
 }
-from './tools.js';
+	from './tools.js';
 export async function main(ns) {
-	//set up actual servers
+	//Purchase dedicated servers
 	let serverList = ["dedicatedGrower", "dedicatedWeakener"]
 	let serverRAM = ns.getPurchasedServerMaxRam()
 	serverList.forEach((serverName) => {
@@ -15,17 +15,21 @@ export async function main(ns) {
 			ns.tprintf(`A server named ${serverName} already exists.`)
 		}
 	})
+	//Copy files to dedicated servers
 	await ns.scp("noWeakenOnlyGrow.js", "dedicatedGrower")
 	await ns.scp("noGrowOnlyWeaken.js", "dedicatedWeakener")
 	let targetList = rootAccessList(ns)
+	//set up Weaken threads
 	let dedicatedWeakenRAMCost = ns.getScriptRam("noGrowOnlyWeaken.js", "dedicatedWeakener")
-	let dedicatedGrowRAMCost = ns.getScriptRam("noWeakenOnlyGrow.js", "dedicatedGrower")
 	ns.tprintf("Weaken RAM: " + dedicatedWeakenRAMCost)
-	ns.tprintf("Grow RAM: " + dedicatedGrowRAMCost)
 	let dedicatedWeakenRAM = ns.getServerMaxRam("dedicatedWeakener") - ns.getServerUsedRam("dedicatedWeakener")
 	let weakenTotalThreadCount = Math.floor(dedicatedWeakenRAM / dedicatedWeakenRAMCost)
+	//set up Grow threads
+	let dedicatedGrowRAMCost = ns.getScriptRam("noWeakenOnlyGrow.js", "dedicatedGrower")
+	ns.tprintf("Grow RAM: " + dedicatedGrowRAMCost)
 	let dedicatedGrowRAM = ns.getServerMaxRam("dedicatedGrower") - ns.getServerUsedRam("dedicatedGrower")
 	let growTotalThreadCount = Math.floor(dedicatedGrowRAM / dedicatedGrowRAMCost)
+
 	let moneyAvailableTotal = 0
 	for (let targetServer of targetList) {
 		moneyAvailableTotal += ns.getServerMaxMoney(targetServer)

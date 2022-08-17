@@ -38,16 +38,16 @@ const infiltrationGames = [
 			const h4 = getEl(screen, "h4");
 			const code = h4[1].textContent;
 			switch (code) {
-			case "↑":
+			case "тЖС":
 				pressKey("w");
 				break;
-			case "↓":
+			case "тЖУ":
 				pressKey("s");
 				break;
-			case "←":
+			case "тЖР":
 				pressKey("a");
 				break;
-			case "→":
+			case "тЖТ":
 				pressKey("d");
 				break;
 			}

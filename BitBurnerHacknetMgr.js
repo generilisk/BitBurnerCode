@@ -1,11 +1,13 @@
 /** @param {NS} ns **/
 export async function main(ns) {
+	ns.disableLog("sleep")
+	ns.disableLog("getServerMoneyAvailable")
 	var paybackLimit = 24 * 60 * 60;
 	var sleepMilliseconds = 0.001 * 1000;
 	var budgetPercentage = 0.99;
 	while (true) {
 		var budget = ns.getServerMoneyAvailable('home');
-		budget *= budgetPercentage; //Don't want to spend all money on hacknet, allow 33% but change this if wanted
+		budget *= budgetPercentage; //Don't want to spend all money on hacknet, allow budgetPercentage but change this if wanted
 		var nodeNumber = ns.hacknet.numNodes();
 		var actionList = [];
 		if (nodeNumber > 0) {
@@ -16,6 +18,8 @@ export async function main(ns) {
 				nodeActions.push(new LevelAction(ns, i));
 				nodeActions.forEach(action => actionList.push(action));
 			}
+		}else{
+			ns.hacknet.purchaseNode()
 		}
 		actionList.push(new NewNodeAction(ns, 1));
 		actionList = actionList.filter(action => action.payBackTime() < paybackLimit);

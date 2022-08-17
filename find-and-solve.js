@@ -1,7 +1,7 @@
 /** @param {NS} ns */
 import {
 	solvers
-} from "solvers.js";
+} from "./solvers.js";
 export async function main(ns) {
 	ns.disableLog("scan");
 	ns.disableLog("sleep");

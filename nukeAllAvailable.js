@@ -101,7 +101,7 @@ export async function main(ns) {
 				ns.sqlinject(curServer)
 			};
 			if (portOpeners >= reqPorts) {
-				ns.nuke(curServer)
+				await ns.nuke(curServer)
 			};
 		};
 	};
